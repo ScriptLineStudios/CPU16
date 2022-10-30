@@ -18,8 +18,8 @@ opcodes = {
 
 macros = {
     "mem" : ["mova @", "ldia @"],
-    "push": ["mova @", f"ldia {virtual_stack_pointer}"],
-    "pop" : [f"lda {virtual_stack_pointer}"],
+    "push": ["mova @", f"ldia #"],
+    "pop" : [f"lda #"],
 }
 
 def write_hex(hex_data):
@@ -30,7 +30,7 @@ def write_hex(hex_data):
             f.write(hexed + " ")
         f.write("\r")
 
-def assemble(filename):
+def assemble(filename, virtual_stack_pointer):
     hex_data = []
     data = []
     with open(filename , "r") as f:
@@ -41,8 +41,14 @@ def assemble(filename):
         opcode = line.split(" ")[0]
         macro = macros.get(opcode, None)
         if macro:
+            if opcode == "push":
+                virtual_stack_pointer += 1
             operands = line.split(" ")[1:]
-            data[index] = [sub.replace("@", operands[i]) for i, sub in enumerate(macro)]
+            data[index] = [sub.replace("@", operands[i]).replace("#", str(virtual_stack_pointer)) if i < len(operands) else sub for i, sub in enumerate(macro)]
+            for i, expansion in enumerate(data[index]):
+                data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
+            if opcode == "pop":
+                virtual_stack_pointer -= 1
     
     flat_list = []
     for sublist in data:
@@ -70,4 +76,4 @@ def assemble(filename):
 
 if __name__ == "__main__":
     filename = sys.argv[1]
-    assemble(filename)
+    assemble(filename, virtual_stack_pointer)

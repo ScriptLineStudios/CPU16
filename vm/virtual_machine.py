@@ -60,15 +60,37 @@ class VirtualMachine:
             self.program = f.readlines()[1:][0].replace("\n", "").split(" ")
             self.program.pop(-1)
 
-    def dump_ram(self):
-        print(self.RAM)
+    def dump_ram(self, cells, verbose):
+        if verbose: print(f"[VIRTUAL MACHINE]: DUMPING THE FIRST {cells} RAM CELLS:")
+        for i in range(cells):
+            end = "|"
+            if i % 10 == 0 and i != 0:
+                end = "\n"
+            print(self.RAM[i], end=end)
+        if verbose: print("\n")
+
+
+    def dump_ra(self, verbose=True):
+        if verbose: print(f"[VIRTUAL MACHINE]: DUMPING RA:")
+        print(self.RA)
+
+    def dump_rb(self, verbose=True):
+        if verbose: print(f"[VIRTUAL MACHINE]: DUMPING RB:")
+        print(self.RB)
+
+    def debug(self, cells, verbose=True):
+        if verbose: print(f"[VIRTUAL MACHINE]: STARTING DEBUG:")
+        self.dump_ram(cells, verbose)
+        self.dump_ra(verbose)
+        self.dump_rb(verbose)
+        if verbose: print(f"[VIRTUAL MACHINE]: ENDING DEBUG.")
 
     def start_clock(self):
         while True:
             try:
                 instruction = self.program[self.instruction_pointer]
             except:
-                self.dump_ram()
+                self.debug(10000)
                 exit(0)
                 
             instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
