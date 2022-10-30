@@ -26,6 +26,7 @@ Note: All instructions are 8 bit and take 16 bit operands for example XXXXXXXXYY
 7.  JMP  - Jumps unconditionally to a specified line
 8.  JNZ  - Jumps if the contents of RZ is not 0
 9.  LDA  - Loads RA with the contents of the specified address
+10. OUTB - Outputs the contents of RA to the VRAM
 
 The Stack
 ===================
@@ -96,6 +97,8 @@ LDB:
 	00001010 + 01 (9)  --> RO, BI      --> 0000000000000 (0x0)
 	00001010 + 10 (10) --> NONE        --> 0000000000000 (0x0)
 	00001010 + 11 (11) --> CE          --> 0100000000000 (0x800)
+OUTB:
+
 
 1  = RA OUT
 2  = RB OUT
