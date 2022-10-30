@@ -1,2 +1,2 @@
-mem 10 10
-mova 2
+mova 100
+jnz 10

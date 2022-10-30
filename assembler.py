@@ -1,6 +1,8 @@
 import sys
 import itertools
 
+virtual_stack_pointer = 3000
+
 opcodes = {
     "mova": "00000001",
     "movb": "00000010",
@@ -13,7 +15,9 @@ opcodes = {
 }
 
 macros = {
-    "mem": ["mova @", "ldia @"]
+    "mem" : ["mova @", "ldia @"],
+    "push": ["mova @", f"ldia {virtual_stack_pointer}"],
+    "pop" : [f"lda {virtual_stack_pointer}"],
 }
 
 def write_hex(hex_data):
