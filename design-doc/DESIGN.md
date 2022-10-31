@@ -1,20 +1,18 @@
-CPU16 Design Doc
-====================
+# CPU16 Design Doc
 
-Memeory
-====================
+# Memeory
 
-Registers:
+## Registers:
 	1. RA  - General Purpose 16bit Register
 	2. RB  - General Purpose 16bit Register
 	3. RZ  - Zero flag gets updated automatically returns 1 if RA is > 0 and 0 is RA = 0
 	4. RSP - Virtual Stack Pointer (View Section: The Stack)
-RAM:
+## RAM:
 	1. 0x0000 --> 0x7999  - General RAM space for programs to use
 	2. 0x8000 --> 0x10000 - Reserved stack space
 
-Instructions
-====================
+# Instructions
+
 Note: All instructions are 8 bit and take 16 bit operands for example XXXXXXXXYYYYYYYYYYYYYYYY
 
 1.  MOVA - Moves an immediate into the RA register                                              
@@ -28,23 +26,21 @@ Note: All instructions are 8 bit and take 16 bit operands for example XXXXXXXXYY
 9.  LDA  - Loads RA with the contents of the specified address
 10. OUTB - Outputs the contents of RA to the VRAM
 
-The Stack
-===================
+# The Stack
 
 The CPU16 does not have a hardware stack. All stack releated calculations are done at assemble time. The stacks memory starts at 
 0x8000 and can grow until 0x100000 (View Section: Memory). The assembler keeps track of where the stack pointer is located using a
 virtual register called RSP which similar to all other registers can be referred to in programs.
 
-Macros
-===================
+# Macros
+
 Note: The CPU16 assembler supports macros which are instructions which get broken down into instructions described above
 
 1. PUSH - Pushes an immediate to the stack               (%imm        --> MOVA %imm, LDIA %RSP)
 2. POP  - Pops top value off the stack and stores in RA  (void        --> LDA %RSP)
 3. MEM  - Loads a value directly into an address         (%addr, %imm --> MOVA %imm, LDIA %addr)
 
-Control Unit
-===================
+# Control Unit
 Note: Format is denoted using the following: Instruction(8 bits) + Instruction Count(2 bits)
 
 MOVA:

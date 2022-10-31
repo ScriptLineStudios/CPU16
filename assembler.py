@@ -19,7 +19,10 @@ opcodes = {
 macros = {
     "mem" : ["mova @", "ldia @"],
     "push": ["mova @", f"ldia #"],
-    "pop" : [f"lda #"],
+
+    "pusha": [f"ldia #"],
+    "pushb": [f"ldib #"],
+    "pop" : [f"- $"],
 }
 
 def write_hex(hex_data):
@@ -41,13 +44,18 @@ def assemble(filename, virtual_stack_pointer):
         opcode = line.split(" ")[0]
         macro = macros.get(opcode, None)
         if macro:
-            if opcode == "push":
+            if opcode == "push" or opcode == "pusha" or opcode == "pushb":
                 virtual_stack_pointer += 1
             operands = line.split(" ")[1:]
             data[index] = [sub.replace("@", operands[i]).replace("#", str(virtual_stack_pointer)) if i < len(operands) else sub for i, sub in enumerate(macro)]
             for i, expansion in enumerate(data[index]):
                 data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
             if opcode == "pop":
+                print(operands)
+                if operands[0] == "ra":
+                    data[index] = [f"lda {virtual_stack_pointer}"]
+                elif operands[0] == "rb":
+                    data[index] = [f"ldb {virtual_stack_pointer}"]
                 virtual_stack_pointer -= 1
     
     flat_list = []

@@ -88,17 +88,24 @@ class VirtualMachine:
     def start_clock(self):
         while True:
             try:
-                instruction = self.program[self.instruction_pointer]
-            except:
-                self.debug(10000)
-                exit(0)
-                
-            instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
-            instruction = "0000" + instruction
+                try:
+                    instruction = self.program[self.instruction_pointer]
+                except:
+                    self.debug(10)
+                    exit(0)
+                    
+                instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
+                instruction = "0000" + instruction
 
-            opcode = instruction[0:8]
-            operand = int(instruction[8:24], 2)
-            func = self.instruction_macros[self.instructions[opcode]]
-            func(operand)
-            self.instruction_pointer += 1
+                opcode = instruction[0:8]
+                operand = int(instruction[8:24], 2)
+                func = self.instruction_macros[self.instructions[opcode]]
+                func(operand)
+                self.instruction_pointer += 1
+            except KeyboardInterrupt:
+                self.debug(10)
+                exit(1)
+
+        
+
     
