@@ -5,8 +5,9 @@
   <lib desc="#Wiring" name="0">
     <tool name="Splitter">
       <a name="appear" val="center"/>
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="8"/>
+      <a name="facing" val="north"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
     </tool>
     <tool name="Pin">
       <a name="appearance" val="classic"/>
@@ -186,17 +187,17 @@
       <a name="fanout" val="16"/>
       <a name="incoming" val="16"/>
     </comp>
-    <comp lib="0" loc="(510,1820)" name="Splitter">
+    <comp lib="0" loc="(530,1820)" name="Splitter">
       <a name="appear" val="center"/>
       <a name="facing" val="north"/>
-      <a name="fanout" val="8"/>
-      <a name="incoming" val="8"/>
+      <a name="fanout" val="4"/>
+      <a name="incoming" val="4"/>
     </comp>
     <comp lib="0" loc="(570,2260)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="west"/>
       <a name="output" val="true"/>
-      <a name="width" val="8"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(590,360)" name="Clock"/>
     <comp lib="0" loc="(660,1030)" name="Splitter">
@@ -303,7 +304,8 @@
       <a name="addrWidth" val="24"/>
       <a name="appearance" val="classic"/>
       <a name="contents">addr/data: 24 24
-10007 20010 b0000 70000
+1000f 20002 b0000 20004 b0000 20021 b0000 20032
+b0000 20033 b0000 20034 b0000 20025 b0000 70000
 </a>
       <a name="dataWidth" val="24"/>
     </comp>
@@ -344,10 +346,10 @@
       <a name="width" val="16"/>
     </comp>
     <comp lib="5" loc="(1250,2070)" name="RGB Video">
-      <a name="color" val="XTerm256 (8 bit)"/>
-      <a name="height" val="256"/>
-      <a name="scale" val="1"/>
-      <a name="width" val="256"/>
+      <a name="color" val="Grayscale (4 bit)"/>
+      <a name="height" val="16"/>
+      <a name="scale" val="8"/>
+      <a name="width" val="16"/>
     </comp>
     <comp lib="8" loc="(1052,1051)" name="Text">
       <a name="text" val="RA IN"/>
@@ -856,7 +858,6 @@
     <wire from="(490,310)" to="(490,950)"/>
     <wire from="(490,950)" to="(610,950)"/>
     <wire from="(510,1610)" to="(1020,1610)"/>
-    <wire from="(510,1820)" to="(530,1820)"/>
     <wire from="(510,210)" to="(510,1610)"/>
     <wire from="(510,210)" to="(730,210)"/>
     <wire from="(510,2170)" to="(510,2260)"/>
@@ -1255,14 +1256,12 @@
       <a name="facing" val="south"/>
       <a name="label" val="COLOR"/>
       <a name="output" val="true"/>
-      <a name="radix" val="16"/>
-      <a name="width" val="8"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(1110,1140)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="DATA"/>
-      <a name="radix" val="16"/>
-      <a name="width" val="8"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(1160,820)" name="Pin">
       <a name="appearance" val="NewPins"/>
@@ -1276,7 +1275,6 @@
     <comp lib="0" loc="(820,750)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="label" val="ADDRESS"/>
-      <a name="radix" val="16"/>
       <a name="width" val="8"/>
     </comp>
     <comp lib="0" loc="(860,800)" name="Pin">
@@ -1300,25 +1298,29 @@
       <a name="facing" val="south"/>
       <a name="label" val="X"/>
       <a name="output" val="true"/>
-      <a name="width" val="8"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="0" loc="(980,370)" name="Pin">
       <a name="appearance" val="NewPins"/>
       <a name="facing" val="south"/>
       <a name="label" val="Y"/>
       <a name="output" val="true"/>
-      <a name="width" val="8"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="4" loc="(270,1120)" name="Counter">
       <a name="appearance" val="logisim_evolution"/>
       <a name="max" val="0x1"/>
       <a name="width" val="1"/>
     </comp>
-    <comp lib="4" loc="(390,190)" name="Counter">
+    <comp lib="4" loc="(400,570)" name="Counter">
       <a name="appearance" val="logisim_evolution"/>
+      <a name="max" val="0xf"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="4" loc="(410,820)" name="Counter">
       <a name="appearance" val="logisim_evolution"/>
+      <a name="max" val="0xf"/>
+      <a name="width" val="4"/>
     </comp>
     <comp lib="4" loc="(580,1110)" name="Counter">
       <a name="appearance" val="logisim_evolution"/>
@@ -1343,8 +1345,8 @@
     <wire from="(160,560)" to="(160,1070)"/>
     <wire from="(160,560)" to="(940,560)"/>
     <wire from="(360,1050)" to="(490,1050)"/>
-    <wire from="(360,270)" to="(360,1050)"/>
-    <wire from="(360,270)" to="(390,270)"/>
+    <wire from="(360,650)" to="(360,1050)"/>
+    <wire from="(360,650)" to="(400,650)"/>
     <wire from="(370,800)" to="(370,900)"/>
     <wire from="(370,800)" to="(610,800)"/>
     <wire from="(370,900)" to="(410,900)"/>
@@ -1353,10 +1355,10 @@
     <wire from="(490,1170)" to="(510,1170)"/>
     <wire from="(510,1170)" to="(510,1190)"/>
     <wire from="(510,1190)" to="(580,1190)"/>
-    <wire from="(580,240)" to="(610,240)"/>
-    <wire from="(580,300)" to="(970,300)"/>
+    <wire from="(590,620)" to="(610,620)"/>
+    <wire from="(590,680)" to="(970,680)"/>
     <wire from="(600,930)" to="(980,930)"/>
-    <wire from="(610,240)" to="(610,800)"/>
+    <wire from="(610,620)" to="(610,800)"/>
     <wire from="(770,1220)" to="(930,1220)"/>
     <wire from="(810,750)" to="(820,750)"/>
     <wire from="(820,750)" to="(830,750)"/>
@@ -1377,7 +1379,7 @@
     <wire from="(940,560)" to="(950,560)"/>
     <wire from="(950,290)" to="(950,560)"/>
     <wire from="(960,760)" to="(1170,760)"/>
-    <wire from="(970,220)" to="(970,300)"/>
+    <wire from="(970,220)" to="(970,680)"/>
     <wire from="(970,220)" to="(980,220)"/>
     <wire from="(980,210)" to="(980,220)"/>
     <wire from="(980,370)" to="(980,930)"/>
