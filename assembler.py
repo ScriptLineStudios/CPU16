@@ -1,7 +1,10 @@
 import sys
 import itertools
 
+from macros import char_macros
+
 virtual_stack_pointer = 3000
+char_offset = -5
 
 opcodes = {
     "mova": "00000001",
@@ -26,6 +29,8 @@ macros = {
     "pop" : [f"- $"],
 }
 
+macros = char_macros.add_all_chars_to_macro_definitions(macros)
+
 def write_hex(hex_data):
     with open("output.hex", "w") as f:
         f.write("v2.0 raw")
@@ -34,7 +39,7 @@ def write_hex(hex_data):
             f.write(hexed + " ")
         f.write("\r")
 
-def assemble(filename, virtual_stack_pointer):
+def assemble(filename, virtual_stack_pointer, char_offset):
     hex_data = []
     data = []
     with open(filename , "r") as f:
@@ -48,9 +53,12 @@ def assemble(filename, virtual_stack_pointer):
             if opcode == "push" or opcode == "pusha" or opcode == "pushb":
                 virtual_stack_pointer += 1
             operands = line.split(" ")[1:]
-            data[index] = [sub.replace("@", operands[i]).replace("#", str(virtual_stack_pointer)) if i < len(operands) else sub for i, sub in enumerate(macro)]
+            data[index] = [sub.replace("@", operands[i]).replace("#", str(virtual_stack_pointer)).replace("&", str(char_offset)) if i < len(operands) else sub for i, sub in enumerate(macro)]
             for i, expansion in enumerate(data[index]):
                 data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
+            if "drawchar" in opcode:
+                char_offset += 5
+            data[index] = [d.replace("&", str(char_offset)) for d in data[index]]    
             if opcode == "pop":
                 print(operands)
                 if operands[0] == "ra":
@@ -73,6 +81,9 @@ def assemble(filename, virtual_stack_pointer):
         opcode = data[0].replace("\n", "")
         if len(data) > 1:
             operand = data[1].replace("\n", "")
+            if "+" in operand:
+                print(operand.split("+"))
+                operand = int(operand.split("+")[0]) + int(operand.split("+")[1])
         else:
             operand = None
         instruction = (opcodes[opcode], (bin(int(operand)).replace("0b", "")).rjust(16, "0") if operand else "0".rjust(16, "0"))
@@ -85,4 +96,4 @@ def assemble(filename, virtual_stack_pointer):
 
 if __name__ == "__main__":
     filename = sys.argv[1]
-    assemble(filename, virtual_stack_pointer)
+    assemble(filename, virtual_stack_pointer, char_offset)
