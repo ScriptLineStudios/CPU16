@@ -1,5 +1,9 @@
-push 1
-pop ra
-add 
-pusha
-jmp 3
+mova 255
+outb 40
+outb 80
+outb 23
+outb 44
+outb 64
+outb 84
+outb 103
+jmp 0

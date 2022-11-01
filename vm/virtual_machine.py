@@ -20,9 +20,14 @@ class VirtualMachine:
             "00001000": 7,
             "00001001": 8,
             "00001010": 9,
+            "00001011": 10, 
         }
 
-        self.instruction_macros = [self.movea, self.moveb, self.ldia, self.ldib, self.add, self.sub, self.jmp, self.jnz, self.lda, self.ldb]
+        self.instruction_macros = [self.movea, self.moveb, self.ldia, self.ldib, self.add, self.sub, self.jmp, self.jnz, self.lda, self.ldb, self.outb]
+        self.io = []
+
+    def attach(self, IODevice):
+        self.io.append(IODevice)
 
     def movea(self, imm):
         self.RA = imm
@@ -41,6 +46,7 @@ class VirtualMachine:
 
     def sub(self, void):
         self.RA -= self.RB
+        print(self.RA, self.RB)
 
     def jmp(self, imm):
         self.instruction_pointer = imm
@@ -54,6 +60,9 @@ class VirtualMachine:
 
     def ldb(self, addr):
         self.RB = self.RAM[addr]
+
+    def outb(self, addr):
+        self.io[0].VRAM[addr] = self.RA
 
     def load_program(self, program_filename):
         with open(program_filename, "r") as f:
@@ -93,6 +102,9 @@ class VirtualMachine:
                 except:
                     self.debug(10)
                     exit(0)
+
+                for device in self.io:
+                    device.tick()
                     
                 instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
                 instruction = "0000" + instruction
