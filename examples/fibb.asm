@@ -1,18 +1,16 @@
-mova 255
-movb 1
-sub
-movb 40 
+mova 15
+movb 2
 outb
-movb 80
+movb 4
 outb
-movb 23
+movb 33
 outb
-movb 44
+movb 50
 outb
-movb 64
+movb 51
 outb
-movb 84
+movb 52
 outb
-movb 103
+movb 37
 outb
-jmp 1
+jmp 0

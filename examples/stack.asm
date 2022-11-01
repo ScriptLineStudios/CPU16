@@ -1,4 +1,4 @@
-push 10
-push 20
-pop ;20 is now in RA
-pop ;10 is now in RA
+mova 100
+movb 1
+sub
+jnz 1

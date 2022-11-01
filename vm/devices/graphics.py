@@ -3,12 +3,12 @@ import pygame
 #Screen = 200*200 scaled up to X*Y
 class GraphicsCard:
     def __init__(self):
-        self.width = 20
-        self.height = 20
+        self.width = 16
+        self.height = 16
         self.VRAM = [0] * self.width * self.height
 
         self.screen = pygame.display.set_mode((600, 600))
-        self.display = pygame.Surface((20, 20))
+        self.display = pygame.Surface((self.width, self.height))
         self.clock = pygame.time.Clock()
 
         pygame.display.set_caption("Virtual Graphics Card")
@@ -24,12 +24,12 @@ class GraphicsCard:
         self.clock.tick(60)
 
     def __set_at(self, x, y, index):
-        self.display.set_at((x, y), (self.VRAM[index], self.VRAM[index], self.VRAM[index]))
+        self.display.set_at((x, y), (self.VRAM[index] * 17, self.VRAM[index] * 17, self.VRAM[index] * 17))
 
     def __render_vram(self):
         i = 0
-        for x in range(self.width):
-            for y in range(self.width):
+        for y in range(self.width):
+            for x in range(self.width):
                 self.__set_at(x, y, i)
                 i += 1
 
