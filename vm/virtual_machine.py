@@ -61,8 +61,8 @@ class VirtualMachine:
     def ldb(self, addr):
         self.RB = self.RAM[addr]
 
-    def outb(self, addr):
-        self.io[0].VRAM[addr] = self.RA
+    def outb(self, void):
+        self.io[0].VRAM[self.RB] = self.RA
 
     def load_program(self, program_filename):
         with open(program_filename, "r") as f:

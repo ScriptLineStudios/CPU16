@@ -20,7 +20,7 @@ class GraphicsCard:
         self.screen.blit(pygame.transform.scale(self.display, (600, 600)), (0, 0))
         pygame.display.update()
 
-    def __tick_clock(self):
+    def __tick_virtual_clock(self):
         self.clock.tick(60)
 
     def __set_at(self, x, y, index):
@@ -33,8 +33,14 @@ class GraphicsCard:
                 self.__set_at(x, y, i)
                 i += 1
 
+    def __get_and_handle_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                quit()
+
     def tick(self):
         self.__clear()
         self.__render_vram()
         self.__update()
-        self.__tick_clock()
+        self.__tick_virtual_clock()
