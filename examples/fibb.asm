@@ -3,14 +3,16 @@ movb 2
 outb
 movb 4
 outb
-movb 33
+movb 64
 outb
-movb 50
+movb 97
 outb
-movb 51
+movb 98
 outb
-movb 52
+movb 99
 outb
-movb 37
+movb 100
+outb
+movb 69
 outb
 jmp 0

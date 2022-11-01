@@ -3,8 +3,8 @@ import pygame
 #Screen = 200*200 scaled up to X*Y
 class GraphicsCard:
     def __init__(self):
-        self.width = 16
-        self.height = 16
+        self.width = 32
+        self.height = 32
         self.VRAM = [0] * self.width * self.height
 
         self.screen = pygame.display.set_mode((600, 600))
