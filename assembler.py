@@ -40,12 +40,18 @@ def write_hex(hex_data):
             f.write(hexed + " ")
         f.write("\r")
 
+
 def assemble(filename, virtual_stack_pointer, char_offset, count):
     hex_data = []
     data = []
+    labels = {}
     with open(filename , "r") as f:
-        for line in f.readlines(): #Before we can parse we must scan for macros
-            data.append(line.replace("\n", ""))
+        for num, line in enumerate(f.readlines()): #Before we can parse we must scan for macros
+            ln = line.replace("\n", "").replace("  ", "")
+            if ":" in ln:
+                labels[ln.replace(":", "")] = num
+            else:
+                data.append(ln)
 
     for index, line in enumerate(data):
         opcode = line.split(" ")[0]
@@ -58,7 +64,6 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
             for i, expansion in enumerate(data[index]):
                 data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
             if "drawchar" in opcode:
-                print(char_offset % 32)
                 if char_offset % 32 == 25 - count:
                     print("")
                     char_offset += 2
@@ -69,7 +74,6 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
                     char_offset += 5
             data[index] = [d.replace("&", str(char_offset)) for d in data[index]]    
             if opcode == "pop":
-                print(operands)
                 if operands[0] == "ra":
                     data[index] = [f"lda {virtual_stack_pointer}"]
                 elif operands[0] == "rb":
@@ -94,6 +98,8 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
                 operand = int(operand.split("+")[0]) + int(operand.split("+")[1])
         else:
             operand = None
+        if operand in labels:
+            operand = labels[operand]
         instruction = (opcodes[opcode], (bin(int(operand)).replace("0b", "")).rjust(16, "0") if operand else "0".rjust(16, "0"))
         instruction = str(instruction[0] + instruction[1])
         hexed = format(int(instruction, 2),'x')
