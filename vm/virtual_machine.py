@@ -101,7 +101,6 @@ class VirtualMachine:
                 except:
                     self.debug(10)
                     exit(0)
-                self.debug(10)
 
                 for device in self.io:
                     device.tick()

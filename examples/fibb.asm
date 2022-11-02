@@ -1,30 +1,32 @@
-$push -> %x:
+$push %x {
     mova %x
     ldia %RSP
     !!%RSP++
-    
-$popa -> void:
+}
+
+$popa void {
     lda %RSP
     !!%RSP--
+}
 
-$popb -> void:
+$popb void {
     ldb %RSP
     !!%RSP--
+}
 
-$mem -> %imm %addr:
+$mem %imm %addr {
     mova %imm
     ldia %addr
+}
 
-
-
-mem 0 0 ; a
-mem 1 1 ; b
-mem 0 2 ; c
+mem 0 0
+mem 1 1
+mem 0 2
 fibb:
     lda 0
-    ldb 1 ;; CREATES NEW FIBB NUMBER
+    ldb 1
     add
-    ldia 2 ;;MOVES THE NEW NUMBER INTO C
+    ldia 2
     lda 1
     ldia 0
     lda 2
