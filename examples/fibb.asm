@@ -1,3 +1,22 @@
+$push -> %x:
+    mova %x
+    ldia %RSP
+    !!%RSP++
+    
+$popa -> void:
+    lda %RSP
+    !!%RSP--
+
+$popb -> void:
+    ldb %RSP
+    !!%RSP--
+
+$mem -> %imm %addr:
+    mova %imm
+    ldia %addr
+
+
+
 mem 0 0 ; a
 mem 1 1 ; b
 mem 0 2 ; c
