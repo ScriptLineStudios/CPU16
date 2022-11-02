@@ -46,7 +46,6 @@ class VirtualMachine:
 
     def sub(self, void):
         self.RA -= self.RB
-        print(self.RA, self.RB)
 
     def jmp(self, imm):
         self.instruction_pointer = imm
@@ -102,9 +101,12 @@ class VirtualMachine:
                 except:
                     self.debug(10)
                     exit(0)
+                self.debug(10)
 
                 for device in self.io:
                     device.tick()
+
+                #self.debug(1)
                     
                 instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
                 instruction = "0000" + instruction

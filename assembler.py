@@ -5,6 +5,7 @@ from macros import char_macros
 
 virtual_stack_pointer = 3000
 char_offset = -5
+count = 0
 
 opcodes = {
     "mova": "00000001",
@@ -39,7 +40,7 @@ def write_hex(hex_data):
             f.write(hexed + " ")
         f.write("\r")
 
-def assemble(filename, virtual_stack_pointer, char_offset):
+def assemble(filename, virtual_stack_pointer, char_offset, count):
     hex_data = []
     data = []
     with open(filename , "r") as f:
@@ -57,7 +58,15 @@ def assemble(filename, virtual_stack_pointer, char_offset):
             for i, expansion in enumerate(data[index]):
                 data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
             if "drawchar" in opcode:
-                char_offset += 5
+                print(char_offset % 32)
+                if char_offset % 32 == 25 - count:
+                    print("")
+                    char_offset += 2
+                    char_offset += 132
+                    char_offset += count
+                    count += 1
+                else:
+                    char_offset += 5
             data[index] = [d.replace("&", str(char_offset)) for d in data[index]]    
             if opcode == "pop":
                 print(operands)
@@ -82,7 +91,6 @@ def assemble(filename, virtual_stack_pointer, char_offset):
         if len(data) > 1:
             operand = data[1].replace("\n", "")
             if "+" in operand:
-                print(operand.split("+"))
                 operand = int(operand.split("+")[0]) + int(operand.split("+")[1])
         else:
             operand = None
@@ -96,4 +104,4 @@ def assemble(filename, virtual_stack_pointer, char_offset):
 
 if __name__ == "__main__":
     filename = sys.argv[1]
-    assemble(filename, virtual_stack_pointer, char_offset)
+    assemble(filename, virtual_stack_pointer, char_offset, count)
