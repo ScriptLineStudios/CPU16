@@ -4,7 +4,7 @@ import itertools
 from macros import char_macros
 
 virtual_stack_pointer = 3000
-char_offset = -5
+char_offset = 0
 count = 0
 
 opcodes = {
@@ -40,45 +40,74 @@ def write_hex(hex_data):
             f.write(hexed + " ")
         f.write("\r")
 
+def expand_macro(macros, name, data, index, final_data, macro_end):
+    lines_to_remove = []
+    offset = 0
+    line = data[index + offset]
+    #print(f"EXPANDING MACRO: {line}")
+    while "}" not in line:
+        lines_to_remove.append(index + offset)
+        offset += 1
+        line = data[index + offset]
+        macros[name]["expansion"].append(line)
+    macros[name]["expansion"].pop()
+    macro_end = index + offset
+    return macro_end
 
-def assemble(filename, virtual_stack_pointer, char_offset, count):
-    hex_data = []
-    data = []
-    labels = {}
-    with open(filename , "r") as f:
-        for num, line in enumerate(f.readlines()): #Before we can parse we must scan for macros
-            ln = line.replace("\n", "").replace("  ", "")
-            if ":" in ln:
-                labels[ln.replace(":", "")] = num
-            else:
-                data.append(ln)
+def scan_for_macros(data, macro_end):
+    final_data = []
+    macros = {}
+    for index, line in enumerate(data):
+        if "$" in line:
+            macro_name = line.split('$')[1].split(' ')[0]
+            macros[macro_name] = {"args": [], "expansion": []}
 
+            #print(f"FOUND MACRO NAMED: {macro_name}")
+            args = line.split(" ")[1:]
+            for arg in args:
+                if "%" in arg:
+                    macros[macro_name]["args"].append(arg)
+
+            macro_end = expand_macro(macros, macro_name, data, index, final_data, macro_end)
+
+    return macros, macro_end
+
+def recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset):
     for index, line in enumerate(data):
         opcode = line.split(" ")[0]
         macro = macros.get(opcode, None)
         if macro:
-            if opcode == "push" or opcode == "pusha" or opcode == "pushb":
-                virtual_stack_pointer += 1
+            replace = macro.copy()
             operands = line.split(" ")[1:]
-            data[index] = [sub.replace("@", operands[i]).replace("#", str(virtual_stack_pointer)).replace("&", str(char_offset)) if i < len(operands) else sub for i, sub in enumerate(macro)]
-            for i, expansion in enumerate(data[index]):
-                data[index][i] = expansion.replace("#", str(virtual_stack_pointer))
-            if "drawchar" in opcode:
-                if char_offset % 32 == 25 - count:
-                    print("")
-                    char_offset += 2
-                    char_offset += 132
-                    char_offset += count
-                    count += 1
-                else:
+            #data[index] = macro["expansion"]
+            data[index] = []
+            for i, part in enumerate(macro["expansion"]):
+                backup = part
+                try:
+                    part_args = part.split(" ")[1]
+                except:
+                    part_args = []
+
+                if "!!%OFFSET++" in part:
                     char_offset += 5
-            data[index] = [d.replace("&", str(char_offset)) for d in data[index]]    
-            if opcode == "pop":
-                if operands[0] == "ra":
-                    data[index] = [f"lda {virtual_stack_pointer}"]
-                elif operands[0] == "rb":
-                    data[index] = [f"ldb {virtual_stack_pointer}"]
-                virtual_stack_pointer -= 1
+                if part_args == []:
+                    if part == "!!%RSP++":
+                        virtual_stack_pointer += 1
+                    elif part == "!!%RSP--":
+                        virtual_stack_pointer -= 1
+                else:
+                    if part_args == "%RSP":
+                        part = part.replace(part_args, str(virtual_stack_pointer))
+                    elif "%OFFSET" in part_args:
+                        part = part.replace("%OFFSET", str(char_offset))
+                    else:
+                        if operands:
+                            part = part.replace(part_args, str(operands[i]))
+                    data[index].append(part)
+    return data
+
+def assemble_macros(data, macros, virtual_stack_pointer, char_offset):
+    data = recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     
     flat_list = []
     for sublist in data:
@@ -88,7 +117,48 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
         else:
             flat_list.append(sublist)
     data = flat_list
+    return data
+
+def expand_include_dirs(data):
+    new_data = []
+    print(f"NEW DATA = {new_data}")
+    for num, line in enumerate(data):
+        if "&include" in line: #then we know this is an include
+            print("----- Found Include -----")
+            data_dir = str(line.split(" ")[1]).strip("\"")
+            with open(data_dir, "r") as include_file:
+                for include_line in include_file.readlines():
+                    include_line = include_line.replace("\n", "").replace("  ", "")
+                    print(include_line)
+                    new_data.append(include_line)
+    for d in data:
+        if d != "":
+            new_data.append(d)
+    return new_data
+
+def assemble(filename, virtual_stack_pointer, char_offset, count):
+    hex_data = []
+    data = []
+    labels = {}
+    macro_end = 0
+    with open(filename , "r") as f:
+        for num, line in enumerate(f.readlines()): #Before we can parse we must scan for macros
+            ln = line.replace("\n", "").replace("  ", "")
+            data.append(ln)
+    
+    data = expand_include_dirs(data)
+    macros, macro_end = scan_for_macros(data, macro_end)
+    data = data[macro_end+2:]
+    data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
+    data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     print(data)
+
+    labels = {}
+    for num, line in enumerate(data): #Before we can parse we must scan for macros
+        ln = line.replace("\n", "").replace("  ", "")
+        if ":" in ln:
+            labels[ln.replace(":", "")] = num - 1
+            data.remove(line)
     for line in data:
         data = line.split(" ")
         opcode = data[0].replace("\n", "")
@@ -111,3 +181,4 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
 if __name__ == "__main__":
     filename = sys.argv[1]
     assemble(filename, virtual_stack_pointer, char_offset, count)
+

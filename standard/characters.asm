@@ -1,0 +1,3 @@
+$drawchara void {
+    
+}
