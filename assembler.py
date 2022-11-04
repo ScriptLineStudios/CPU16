@@ -6,6 +6,7 @@ from macros import char_macros
 virtual_stack_pointer = 3000
 char_offset = 0
 count = 0
+string_pointer = 1000
 
 opcodes = {
     "mova": "00000001",
@@ -136,6 +137,24 @@ def expand_include_dirs(data):
             new_data.append(d)
     return new_data
 
+def load_strings(data, string_pointer):
+    strings = {}
+    append_data = []
+    for i, line in enumerate(data):
+        if "lds" in line:   
+            ptr = string_pointer
+            str_data = line.split(":")[1].split("->")[0]
+            str_name = line.split("->")[1]
+            strings[str_name] = str_data
+            str_data = str_data[1:len(str_data) - 1]
+            for char in str_data:
+                append_data.append(f"mem {ord(char)} {string_pointer}")
+                string_pointer += 1
+            strings[str_name] = ptr
+            data.remove(line)
+            data[i - 1] = append_data
+    return data, strings
+
 def assemble(filename, virtual_stack_pointer, char_offset, count):
     hex_data = []
     data = []
@@ -147,29 +166,44 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
             data.append(ln)
     
     data = expand_include_dirs(data)
+    data, strings = load_strings(data, string_pointer)
+    flat_list = []
+    for sublist in data:
+        if type(sublist) == list:
+            for item in sublist:
+                flat_list.append(item)
+        else:
+            flat_list.append(sublist)
+    data = flat_list
+
     macros, macro_end = scan_for_macros(data, macro_end)
     data = data[macro_end+2:]
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     print(data)
-
     labels = {}
     for num, line in enumerate(data): #Before we can parse we must scan for macros
         ln = line.replace("\n", "").replace("  ", "")
         if ":" in ln:
             labels[ln.replace(":", "")] = num - 1
             data.remove(line)
+
     for line in data:
         data = line.split(" ")
         opcode = data[0].replace("\n", "")
         if len(data) > 1:
             operand = data[1].replace("\n", "")
             if "+" in operand:
-                operand = int(operand.split("+")[0]) + int(operand.split("+")[1])
+                potential_str_arg = operand.split("+")[0]
+                if potential_str_arg in strings:
+                    potential_str_arg = strings[potential_str_arg]
+                    
+                operand = int(potential_str_arg) + int(operand.split("+")[1])
         else:
             operand = None
         if operand in labels:
             operand = labels[operand]
+        operand = strings.get(operand, operand)
         instruction = (opcodes[opcode], (bin(int(operand)).replace("0b", "")).rjust(16, "0") if operand else "0".rjust(16, "0"))
         instruction = str(instruction[0] + instruction[1])
         hexed = format(int(instruction, 2),'x')

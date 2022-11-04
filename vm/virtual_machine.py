@@ -99,7 +99,7 @@ class VirtualMachine:
                 try:
                     instruction = self.program[self.instruction_pointer]
                 except:
-                    self.debug(10)
+                    self.debug(3000)
                     exit(0)
 
                 for device in self.io:
