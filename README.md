@@ -4,7 +4,7 @@ A 16 bit CPU.
 # Features
 
 - Logisim schematic
-- Assembler
+- Assembler (with support for macros and strings)
 - Virtual Machine
 
 # Specs
