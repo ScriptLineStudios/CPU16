@@ -235,7 +235,7 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
     for num, line in enumerate(data): #Before we can parse we must scan for macros
         ln = line.replace("\n", "").replace("  ", "")
         if ":" in ln:
-            labels[ln.replace(":", "")] = num - 1
+            labels[ln.replace(":", "")] = num
             data.remove(line)
 
     for line in data:

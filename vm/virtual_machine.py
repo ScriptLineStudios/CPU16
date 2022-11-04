@@ -48,11 +48,11 @@ class VirtualMachine:
         self.RA -= self.RB
 
     def jmp(self, imm):
-        self.instruction_pointer = imm
+        self.instruction_pointer = imm - 1
 
     def jnz(self, imm):
         if self.RA != 0:
-            self.instruction_pointer = imm
+            self.instruction_pointer = imm - 1
         
     def lda(self, addr):
         self.RA = self.RAM[addr]
@@ -104,8 +104,6 @@ class VirtualMachine:
 
                 for device in self.io:
                     device.tick()
-
-                #self.debug(1)
                     
                 instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
                 instruction = "0000" + instruction
