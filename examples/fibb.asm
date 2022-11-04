@@ -6,4 +6,7 @@ fibb:
     drawcharb
     drawcharc
     drawchard
+    drawchare
+    drawcharf
+    drawcharg
     jmp fibb
