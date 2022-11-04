@@ -1,10 +1,13 @@
 # CPU16
 A 16 bit CPU.
 
+![PYTHON](https://img.shields.io/badge/_-PY-3572A5.svg?style=for-the-badge)
+![ASSEMBLY](https://img.shields.io/badge/_-ASM-6E4C13.svg?style=for-the-badge)
+
 # Features
 
 - Logisim schematic
-- Assembler
+- Assembler (with support for macros and strings)
 - Virtual Machine
 
 # Specs
