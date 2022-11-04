@@ -1,8 +1,6 @@
 import sys
 import itertools
 
-from macros import char_macros
-
 virtual_stack_pointer = 3000
 char_offset = 0
 count = 0
