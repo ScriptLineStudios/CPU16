@@ -22,17 +22,6 @@ opcodes = {
     "outb": "00001011",
 }
 
-macros = {
-    "mem" : ["mova @", "ldia @"],
-    "push": ["mova @", f"ldia #"],
-
-    "pusha": [f"ldia #"],
-    "pushb": [f"ldib #"],
-    "pop" : [f"- $"],
-}
-
-macros = char_macros.add_all_chars_to_macro_definitions(macros)
-
 def write_hex(hex_data):
     with open("output.hex", "w") as f:
         f.write("v2.0 raw")
