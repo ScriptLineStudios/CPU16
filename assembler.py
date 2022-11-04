@@ -2,7 +2,7 @@ import sys
 import itertools
 
 virtual_stack_pointer = 3000
-char_offset = 0
+char_offset = -2
 count = 0
 string_pointer = 1000
 
@@ -60,7 +60,11 @@ def scan_for_macros(data, macro_end):
 
     return macros, macro_end
 
+num_chars = 0
+lines = 0
+
 def recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset):
+    global num_chars, lines
     for index, line in enumerate(data):
         opcode = line.split(" ")[0]
         macro = macros.get(opcode, None)
@@ -77,7 +81,13 @@ def recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset)
                     part_args = []
 
                 if "!!%OFFSET++" in part:
-                    char_offset += 5
+                    num_chars += 1
+                    if num_chars % 6 == 0:
+                        char_offset += 167
+                        #num_chars = 0
+                    else:
+                        char_offset += 5
+
                 if part_args == []:
                     if part == "!!%RSP++":
                         virtual_stack_pointer += 1
@@ -121,26 +131,71 @@ def expand_include_dirs(data):
             new_data.append(d)
     return new_data
 
-def load_strings(data, string_pointer, strings):
+def load_strings(data, string_pointer, strings, string_values):
     for x in range(2):
         append_data = []
         lines_to_remove = []
         for i, line in enumerate(data):
             if "lds" in line:   
-                print("-------- FOUND STRING ---------")
                 ptr = string_pointer
-                str_data = line.split(":")[1].split("->")[0]
+                str_data = line.split(":\"")[1].split("->")[0]
                 str_name = line.split("->")[1]
                 strings[str_name] = str_data
                 str_data = str_data[0:len(str_data) - 1]
+
+                append_data.append(f"mem {len(str_data)} {string_pointer}")
+                string_pointer += 1
+
                 for char in str_data:
                     append_data.append(f"mem {ord(char)} {string_pointer}")
                     string_pointer += 1
-                    print(string_pointer)
                 strings[str_name] = ptr
+                string_values[ptr] = len(str_data)
+                for i in range(len(str_data)):
+                    string_values[ptr+i+1] = str_data[i]
                 data.remove(line)
                 data.append(append_data)
-    print(data)
+    return data
+
+string_prints = {
+    65: "drawchara",
+    66: "drawcharb",
+    67: "drawcharc",
+    68: "drawchard",
+    69: "drawchare",
+    70: "drawcharf",
+    71: "drawcharg",
+    72: "drawcharh",
+    73: "drawchari",
+    74: "drawcharj",
+    75: "drawchark",
+    76: "drawcharl",
+    77: "drawcharm",
+    78: "drawcharn",
+    79: "drawcharo",
+    80: "drawcharp",
+    81: "drawcharq",
+    82: "drawcharr",
+    83: "drawchars",
+    84: "drawchart",
+    85: "drawcharu",
+    86: "drawcharv",
+    87: "drawcharw",
+    88: "drawcharx",
+    89: "drawchary",
+    90: "drawcharz",
+    32: "drawcharspace",
+}
+
+def puts(data, strings, string_values):
+    for i, line in enumerate(data):
+        if "puts" in line:
+            data[i] = []
+            pointer_name = line.split(" ")[1]
+            pointer = strings[pointer_name]
+            length = string_values[pointer]
+            for x in range(length):
+                data[i].append(string_prints[ord(string_values[pointer+x+1])]) 
     return data
 
 def assemble(filename, virtual_stack_pointer, char_offset, count):
@@ -156,7 +211,9 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
     data = expand_include_dirs(data)
 
     strings = {}
-    data = load_strings(data, string_pointer, strings)
+    string_values = {}
+    data = load_strings(data, string_pointer, strings, string_values)
+    data = puts(data, strings, string_values)
     
     flat_list = []
     for sublist in data:
@@ -171,6 +228,9 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
     data = data[macro_end+2:]
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
+    data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
+    data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
+    print(data)
     labels = {}
     for num, line in enumerate(data): #Before we can parse we must scan for macros
         ln = line.replace("\n", "").replace("  ", "")

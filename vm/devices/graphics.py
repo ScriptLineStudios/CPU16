@@ -21,7 +21,7 @@ class GraphicsCard:
         pygame.display.update()
 
     def __tick_virtual_clock(self):
-        self.clock.tick(60)
+        self.clock.tick()
 
     def __set_at(self, x, y, index):
         _ = bin(self.VRAM[index]).replace("0b", "")

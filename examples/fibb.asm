@@ -1,5 +1,8 @@
 &include "standard/stdlib.asm"
 
-mem 100 str+100
+mova 65535
+loop:
+    puts str
+    jmp loop
 
-lds:"Hello World"->str
+lds:"HELLO WORLD"->str

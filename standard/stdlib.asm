@@ -1,4 +1,4 @@
-$drawchara void {
+$drawchara {
     movb 2+%OFFSET
     outb 0
     movb 34+%OFFSET
@@ -33,6 +33,50 @@ $drawchara void {
 $drawcharb void { 
     movb 2+%OFFSET
     outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 36+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharc void { 
+    movb 2+%OFFSET
+    outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
     movb 34+%OFFSET
     outb 
     movb 66+%OFFSET
@@ -41,104 +85,89 @@ $drawcharb void {
     outb 
     movb 130+%OFFSET
     outb 
-
-    movb 3+%OFFSET
-    outb 
-    movb 36+%OFFSET
-    outb 
-    movb 67+%OFFSET
-    outb 
-    movb 100+%OFFSET
-    outb 
     movb 131+%OFFSET
     outb 
-    !!%OFFSET++
-}
-
-$drawcharc void { 
-    movb 1+%OFFSET
+    movb 132+%OFFSET
     outb 
-    movb 2+%OFFSET
-    outb 
-    movb 3+%OFFSET
-    outb 
-    movb 33+%OFFSET
-    outb 
-    movb 65+%OFFSET
-    outb 
-    movb 97+%OFFSET
-    outb 
-    movb 129+%OFFSET
-    outb 
-    movb 130+%OFFSET
-    outb 
-    movb 131+%OFFSET
+    movb 133+%OFFSET
     outb 
     !!%OFFSET++
 }
                 
 $drawchard void { 
-    movb 1+%OFFSET
-    outb 
     movb 2+%OFFSET
     outb 
-    movb 33+%OFFSET
+    movb 3+%OFFSET
     outb 
-    movb 35+%OFFSET
+    movb 4+%OFFSET
     outb 
-    movb 65+%OFFSET
+    movb 34+%OFFSET
     outb 
-    movb 67+%OFFSET
+    movb 37+%OFFSET
     outb 
-    movb 99+%OFFSET
+    movb 69+%OFFSET
     outb 
-    movb 97+%OFFSET
+    movb 101+%OFFSET
     outb 
-    movb 129+%OFFSET
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
     outb 
     movb 130+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
     outb 
     !!%OFFSET++
 }
 
 $drawchare void { 
-    movb 1+%OFFSET
-    outb 
     movb 2+%OFFSET
     outb 
-    movb 33+%OFFSET
+    movb 3+%OFFSET
     outb 
-    movb 65+%OFFSET
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 34+%OFFSET
     outb 
     movb 66+%OFFSET
     outb 
-    movb 97+%OFFSET
+    movb 67+%OFFSET
     outb 
-    movb 129+%OFFSET
+    movb 98+%OFFSET
     outb 
     movb 130+%OFFSET
     outb 
     movb 131+%OFFSET
-    outb
+    outb 
     movb 132+%OFFSET
-    outb
+    outb 
+    movb 133+%OFFSET
+    outb 
     !!%OFFSET++
 }
 
 $drawcharf void { 
-    movb 0+%OFFSET
+    movb 2+%OFFSET
     outb 
-    movb 1+%OFFSET
+    movb 3+%OFFSET
     outb 
-    movb 32+%OFFSET
+    movb 4+%OFFSET
     outb 
-    movb 64+%OFFSET
+    movb 5+%OFFSET
     outb 
-    movb 65+%OFFSET
+    movb 34+%OFFSET
     outb 
-    movb 96+%OFFSET
+    movb 66+%OFFSET
     outb 
-    movb 128+%OFFSET
+    movb 67+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
     outb 
     !!%OFFSET++
 }
@@ -146,7 +175,165 @@ $drawcharf void {
 $drawcharg void { 
     movb 2+%OFFSET
     outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
     movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharh void { 
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawchari void { 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 2+%OFFSET
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 99+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+            
+$drawcharj void { 
+    movb 5+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawchark void { 
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 100+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharl void { 
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharm void { 
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
     outb 
     movb 66+%OFFSET
     outb 
@@ -157,137 +344,305 @@ $drawcharg void {
     !!%OFFSET++
 }
 
-$drawcharh void { 
+$drawcharn void { 
     movb 2+%OFFSET
-    outb
+    outb 
     movb 34+%OFFSET
-    outb
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
     movb 66+%OFFSET
-    outb
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharo void { 
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharp void {
+    movb 2+%OFFSET
+    outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
     movb 67+%OFFSET
-    outb
+    outb 
+    movb 68+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharq void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
     movb 68+%OFFSET
     outb
-    movb 100+%OFFSET
-    outb
-    movb 98+%OFFSET
-    outb
-    !!%OFFSET++
-}
-
-$drawchari void { 
     movb 3+%OFFSET
-    outb
-    movb 2+%OFFSET
-    outb
+    outb 
     movb 4+%OFFSET
-    outb
-    movb 35+%OFFSET
-    outb
-    movb 67+%OFFSET
-    outb
-    movb 99+%OFFSET
-    outb
-    movb 100+%OFFSET
-    outb
-    movb 98+%OFFSET
-    outb
-    !!%OFFSET++
-}
-            
-$drawcharj void { 
-    movb 3+%OFFSET
-    outb
-    movb 35+%OFFSET
-    outb
-    movb 67+%OFFSET
-    outb
-    movb 99+%OFFSET
-    outb
-    movb 100+%OFFSET
-    outb
-    movb 69+%OFFSET
-    outb
-    !!%OFFSET++
-}
-
-$drawchark void { 
-    movb 3+%OFFSET
-    outb
-    movb 35+%OFFSET
-    outb
-    movb 36+%OFFSET
-    outb
-    movb 69+%OFFSET
-    outb
-    movb 101+%OFFSET
-    outb
+    outb 
     movb 5+%OFFSET
-    outb
-    movb 67+%OFFSET
-    outb
-    movb 99+%OFFSET
-    outb
-    !!%OFFSET++
-}
-
-$drawcharl void { 
-    movb 3+%OFFSET
-    outb
-    movb 35+%OFFSET
-    outb
-    movb 67+%OFFSET
-    outb
-    movb 99+%OFFSET
-    outb
-    movb 100+%OFFSET
-    outb
-    !!%OFFSET++
-}
-
-$drawcharm void { 
-    movb 3+%OFFSET
-    outb
-    movb 4+%OFFSET
-    outb
+    outb 
     movb 37+%OFFSET
-    outb
-    movb 6+%OFFSET
-    outb
-    movb 7+%OFFSET
-    outb
-    movb 39+%OFFSET
-    outb
-    movb 71+%OFFSET
-    outb
-    movb 103+%OFFSET
-    outb
-    movb 35+%OFFSET
-    outb
-    movb 67+%OFFSET
-    outb
-    movb 99+%OFFSET
-    outb
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
     !!%OFFSET++
 }
 
-$drawcharn void { 
+$drawcharr void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
     movb 3+%OFFSET
-    outb
+    outb 
     movb 4+%OFFSET
-    outb
+    outb 
+    !!%OFFSET++
+}
+
+$drawchars void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 100+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawchart void {
+    movb 3+%OFFSET
+    outb 
+    movb 4+%OFFSET
+    outb 
+    movb 2+%OFFSET
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 99+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharu void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharv void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 69+%OFFSET
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharw void {
+    movb 2+%OFFSET
+    outb 
+    movb 34+%OFFSET
+    outb 
+    movb 66+%OFFSET
+    outb 
+    movb 98+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    movb 132+%OFFSET
+    outb 
+    movb 101+%OFFSET
+    outb 
+    movb 100+%OFFSET
+    outb 
     movb 37+%OFFSET
     outb
     movb 69+%OFFSET
-    outb
-    movb 101+%OFFSET
-    outb
+    outb 
+    movb 37+%OFFSET
+    outb 
+    movb 5+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharx void {
+    movb 2+%OFFSET
+    outb 
     movb 35+%OFFSET
-    outb
+    outb 
+    movb 36+%OFFSET
+    outb 
     movb 67+%OFFSET
-    outb
+    outb 
+    movb 68+%OFFSET
+    outb 
     movb 99+%OFFSET
-    outb
+    outb 
+    movb 100+%OFFSET
+    outb 
+    movb 130+%OFFSET
+    outb 
+    movb 133+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawchary void {
+    movb 4+%OFFSET
+    outb 
+    movb 2+%OFFSET
+    outb 
+    movb 35+%OFFSET
+    outb 
+    movb 67+%OFFSET
+    outb 
+    movb 99+%OFFSET
+    outb 
+    movb 131+%OFFSET
+    outb 
+    !!%OFFSET++
+}
+
+$drawcharspace void {
     !!%OFFSET++
 }
 
