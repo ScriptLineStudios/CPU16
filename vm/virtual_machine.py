@@ -21,9 +21,10 @@ class VirtualMachine:
             "00001001": 8,
             "00001010": 9,
             "00001011": 10, 
+            "00001100": 11, #TODO add this to the hardware! 
         }
 
-        self.instruction_macros = [self.movea, self.moveb, self.ldia, self.ldib, self.add, self.sub, self.jmp, self.jnz, self.lda, self.ldb, self.outb]
+        self.instruction_macros = [self.movea, self.moveb, self.ldia, self.ldib, self.add, self.sub, self.jmp, self.jnz, self.lda, self.ldb, self.outb, self.inb]
         self.io = []
 
     def attach(self, IODevice):
@@ -63,6 +64,9 @@ class VirtualMachine:
     def outb(self, void):
         self.io[0].VRAM[self.RB] = self.RA
 
+    def inb(self, void):
+        self.RB = self.io[1].KEYDATA[self.RA]
+
     def load_program(self, program_filename):
         with open(program_filename, "r") as f:
             self.program = f.readlines()[1:][0].replace("\n", "").split(" ")
@@ -99,12 +103,11 @@ class VirtualMachine:
                 try:
                     instruction = self.program[self.instruction_pointer]
                 except:
-                    self.debug(3000)
                     exit(0)
 
                 for device in self.io:
                     device.tick()
-                    
+
                 instruction = bin(int(instruction, 16))[2:].zfill(len(instruction)*4)
                 instruction = "0000" + instruction
 

@@ -18,6 +18,7 @@ opcodes = {
     "lda" : "00001001",
     "ldb" : "00001010",
     "outb": "00001011",
+    "inb":  "00001100",
 }
 
 def write_hex(hex_data):
@@ -77,7 +78,7 @@ def recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset)
                 backup = part
                 try:
                     part_args = part.split(" ")[1]
-                except:
+                except Exception as e:
                     part_args = []
 
                 if "!!%OFFSET++" in part:
@@ -93,6 +94,9 @@ def recursivly_assemble_macros(data, macros, virtual_stack_pointer, char_offset)
                         virtual_stack_pointer += 1
                     elif part == "!!%RSP--":
                         virtual_stack_pointer -= 1
+
+                    if ":" in part:
+                        data[index].append(part)
                 else:
                     if part_args == "%RSP":
                         part = part.replace(part_args, str(virtual_stack_pointer))
@@ -115,6 +119,7 @@ def assemble_macros(data, macros, virtual_stack_pointer, char_offset):
         else:
             flat_list.append(sublist)
     data = flat_list
+
     return data
 
 def expand_include_dirs(data):
@@ -230,13 +235,18 @@ def assemble(filename, virtual_stack_pointer, char_offset, count):
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
     data = assemble_macros(data, macros, virtual_stack_pointer, char_offset)
-    print(data)
     labels = {}
-    for num, line in enumerate(data): #Before we can parse we must scan for macros
+    lines_to_remove = []
+    print(data)
+    for num, line in enumerate(data):
         ln = line.replace("\n", "").replace("  ", "")
         if ":" in ln:
+            print(ln)
             labels[ln.replace(":", "")] = num
-            data.remove(line)
+            lines_to_remove.append(line)
+
+    for l in lines_to_remove:
+        data.remove(l)
 
     for line in data:
         data = line.split(" ")

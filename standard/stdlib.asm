@@ -662,6 +662,39 @@ $popb void { {
     ldb %RSP
 }
 
+$pusha void { {
+    ldia %RSP
+    !!%RSP++
+}
+
+$pushb void { {
+    ldib %RSP
+    !!%RSP++
+}
+
+$swap void {
+    pusha 0
+    pushb 0
+    popa 0
+    popb 0
+}
+
+$deca void {
+    movb 1
+    sub
+}
+
+// $mul void void2 {
+//     pushb
+//     mult:
+//         add
+//         popa
+//         movb 1
+//         sub
+//         jnz mult
+// }
+
+
 $mem %imm %addr {
     mova %imm
     ldia %addr
