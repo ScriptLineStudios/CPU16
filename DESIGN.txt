@@ -1,0 +1,28 @@
+CPU16 REMASTERED
+
+Instructions
+==============
+
+mova <imm>
+movb <imm>
+swap <null>
+
+Instruction Encoding:
+XXXXXXXXYYYYYYYYYYYYYYYY
+
+X -> Opcode
+Y -> Operand1
+
+Opcodes
+=============
+
+mova: 00000001 -> ((operand-out, r1-in); null null; inc)
+mova: 00000010 -> ((operand-out, r2-in); null null; inc)
+add:  00000011 -> ((alu-out; r1-in); null, null, inc)
+sub:  00000100 -> ((alu-mode; alu-out; r1-in); null, null, inc)
+sto:  00000101 -> ((operand-out, mar in); (r1-out, ram-in), null, inc)
+ldd:  00000110 -> ((operand-out, mar in); (ram-out, r1-in), null, inc)
+jmp:  00000111 -> ((operand-out, counter-set); null, null, inc)
+
+
+
